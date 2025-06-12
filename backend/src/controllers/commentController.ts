@@ -37,3 +37,28 @@ export const getPostComments = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error fetching comments' });
     }
 };
+
+export const deleteComment = async (req: Request, res: Response) => {
+    try {
+        const comment = await Comment.findById(req.params.commentId);
+
+        if (!comment) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+
+        if (comment.user.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: 'Not authorized to delete this comment' });
+        }
+
+        await comment.deleteOne();
+        
+        // Remove comment from post
+        await PetPost.findByIdAndUpdate(comment.post, {
+            $pull: { comments: comment._id }
+        });
+
+        res.json({ message: 'Comment deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting comment' });
+    }
+};

@@ -1,36 +1,28 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: [true, 'Username is required'],
-        unique: true,
-        trim: true
+    username: { 
+        type: String, 
+        required: true 
     },
-    email: {
-        type: String,
-        required: [true, 'Email is required'],
-        unique: true,
-        lowercase: true
+    email: { 
+        type: String, 
+        required: true, 
+        unique: true 
     },
-    password: {
-        type: String,
-        required: [true, 'Password is required'],
-        minlength: 6
+    password: { 
+        type: String, 
+        required: true 
     },
-    profilePicture: {
+    bio: { 
         type: String,
-        default: ''
+        default: '' 
     },
-    favorites: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'PetPost'
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now
+    profilePicture: { 
+        type: String 
     }
+}, {
+    timestamps: true
 });
 
 export default mongoose.model('User', userSchema);
