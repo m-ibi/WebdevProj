@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { Box, Button, TextField, Typography, Alert } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { login } from '../features/authSlice';
+import { register } from '../features/authSlice';
 
-const Login = () => {
+const Register = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { isLoading, error } = useAppSelector((state) => state.auth);
     
     const [formData, setFormData] = useState({
+        username: '',
         email: '',
         password: ''
     });
@@ -17,17 +18,17 @@ const Login = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await dispatch(login(formData)).unwrap();
+            await dispatch(register(formData)).unwrap();
             navigate('/');
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error('Registration failed:', error);
         }
     };
 
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
             <Typography variant="h4" component="h1" gutterBottom align="center">
-                Login
+                Register
             </Typography>
             
             {error && (
@@ -36,6 +37,14 @@ const Login = () => {
                 </Alert>
             )}
             
+            <TextField
+                fullWidth
+                label="Username"
+                margin="normal"
+                required
+                value={formData.username}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+            />
             <TextField
                 fullWidth
                 label="Email"
@@ -61,14 +70,14 @@ const Login = () => {
                 sx={{ mt: 3, mb: 2 }}
                 disabled={isLoading}
             >
-                {isLoading ? 'Logging in...' : 'Login'}
+                {isLoading ? 'Registering...' : 'Register'}
             </Button>
             
             <Box textAlign="center">
                 <Typography variant="body2">
-                    Don't have an account?{' '}
-                    <Link to="/register" style={{ textDecoration: 'none', color: '#1976d2' }}>
-                        Register here
+                    Already have an account?{' '}
+                    <Link to="/login" style={{ textDecoration: 'none', color: '#1976d2' }}>
+                        Login here
                     </Link>
                 </Typography>
             </Box>
@@ -76,4 +85,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
