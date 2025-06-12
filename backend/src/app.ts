@@ -3,8 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import petRoutes from './routes/petRoutes';
+import commentRoutes from './routes/commentRoutes';
 import { protect } from './middleware/auth';
-
 dotenv.config();
 const app = express();
 
@@ -15,6 +15,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/pets', petRoutes);
+app.use('/api/comments', commentRoutes);
+
 
 
 // Protected test route
