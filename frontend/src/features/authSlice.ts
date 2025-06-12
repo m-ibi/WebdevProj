@@ -26,6 +26,18 @@ export const register = createAsyncThunk(
         return response;
     }
 );
+export const loadUser = createAsyncThunk(
+    'auth/loadUser',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await authService.getProfile();
+            return response;
+        } catch (error) {
+            localStorage.removeItem('token');
+            return rejectWithValue('Session expired');
+        }
+    }
+);
 
 const authSlice = createSlice({
     name: 'auth',
@@ -64,6 +76,18 @@ const authSlice = createSlice({
             .addCase(register.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.error.message || 'Registration failed';
+            })
+                        .addCase(loadUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(loadUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.user = action.payload;
+            })
+            .addCase(loadUser.rejected, (state) => {
+                state.isLoading = false;
+                state.token = null;
+                state.user = null;
             });
     },
 });

@@ -1,11 +1,11 @@
-import { AppBar, Box, Toolbar, Typography, Button, IconButton } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, Button, IconButton, Avatar } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks/redux';
 import { logout } from '../features/authSlice';
 
 const Navbar = () => {
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector((state) => state.auth);
+    const { user, token } = useAppSelector((state) => state.auth);
 
     const handleLogout = () => {
         dispatch(logout());
@@ -27,12 +27,29 @@ const Navbar = () => {
                     Pet Lovers
                 </Typography>
                 <Box>
-                    {user ? (
+                    {token ? (
                         <>
                             <Button
                                 color="inherit"
                                 component={RouterLink}
+                                to="/create-post"
+                                sx={{ mr: 1 }}
+                            >
+                                New Post
+                            </Button>
+                            <Button
+                                color="inherit"
+                                component={RouterLink}
                                 to="/profile"
+                                sx={{ mr: 1 }}
+                                startIcon={
+                                    user?.profilePicture ? (
+                                        <Avatar 
+                                            src={user.profilePicture} 
+                                            sx={{ width: 24, height: 24 }}
+                                        />
+                                    ) : null
+                                }
                             >
                                 Profile
                             </Button>
@@ -49,6 +66,7 @@ const Navbar = () => {
                                 color="inherit"
                                 component={RouterLink}
                                 to="/login"
+                                sx={{ mr: 1 }}
                             >
                                 Login
                             </Button>
