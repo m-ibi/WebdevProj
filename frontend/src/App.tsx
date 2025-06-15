@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 import CreatePost from './pages/CreatePost';
 import PostDetail from './pages/PostDetail';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -37,6 +38,14 @@ function AppContent() {
                             element={
                                 <ProtectedRoute>
                                     <Profile />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/edit-profile"
+                            element={
+                                <ProtectedRoute>
+                                    <EditProfile />
                                 </ProtectedRoute>
                             }
                         />

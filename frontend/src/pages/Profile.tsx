@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Typography, Button, Avatar, Container, Divider, CircularProgress } from '@mui/material';
 import { useAppSelector } from '../hooks/redux';
+import { Link as RouterLink } from 'react-router-dom';
 import api from '../utils/api';
 import { Post } from '../types';
 import PostCard from '../components/PostCard';
@@ -40,7 +41,7 @@ const Profile = () => {
         <Container maxWidth="lg">
             <Box sx={{ py: 4 }}>
                 {/* Profile layout using Box instead of Grid */}
-                <Box 
+                <Box
                     sx={{
                         display: 'flex',
                         flexDirection: { xs: 'column', md: 'row' },
@@ -48,7 +49,7 @@ const Profile = () => {
                     }}
                 >
                     {/* Profile info section */}
-                    <Box 
+                    <Box
                         sx={{
                             width: { xs: '100%', md: '30%' },
                             textAlign: 'center'
@@ -72,16 +73,16 @@ const Profile = () => {
                         <Button
                             variant="outlined"
                             sx={{ mt: 2 }}
-                            component="a"
-                            href="/edit-profile"
+                            component={RouterLink}  // Change this
+                            to="/edit-profile"      // And use to prop instead of href
                         >
                             Edit Profile
                         </Button>
                     </Box>
 
                     {/* Posts section */}
-                    <Box 
-                        sx={{ 
+                    <Box
+                        sx={{
                             width: { xs: '100%', md: '70%' }
                         }}
                     >
@@ -89,7 +90,7 @@ const Profile = () => {
                             My Posts
                         </Typography>
                         <Divider sx={{ mb: 2 }} />
-                        
+
                         {userPosts.length === 0 ? (
                             <Typography variant="body1" sx={{ my: 4 }}>
                                 You haven't created any posts yet.
